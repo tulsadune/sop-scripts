@@ -24,6 +24,10 @@ then
     echo "$0 DIRECTORY..."
 fi
 
+########
+# backup_dir_list is the space seperated list of backup directories to scan
+# which is passed in from the command line.
+########
 backup_dir_list=$*
 
 ########
