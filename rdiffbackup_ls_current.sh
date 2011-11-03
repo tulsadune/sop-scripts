@@ -2,7 +2,7 @@
 
 ########
 #
-# ls_current_rdiffbackup.sh DIRECTORY...
+# rdiffbackup_ls_current.sh DIRECTORY...
 #
 # This script will scan for rdiff-backup-data directories and then list the
 # current mirror time for each one.
