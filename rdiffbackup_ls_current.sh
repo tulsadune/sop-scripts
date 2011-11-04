@@ -1,22 +1,32 @@
 #!/bin/bash
-
-########
+#== ======== ======== ======== ======== ======== ======== ======== ======== ==
 #
-# rdiffbackup_ls_current.sh DIRECTORY...
+#         FILE: rdiffbackup_ls_current.sh
 #
-# This script will scan for rdiff-backup-data directories and then list the
-# current mirror time for each one.
-########
+#        USAGE: rdiffbackup_ls_current.sh DIRECTORY...
+#
+#  DESCRIPTION: Scans for rdiff-backup-data directories and then lists the
+#               current mirror time for each one.
+#
+#      OPTIONS: ---
+# REQUIREMENTS: --- 
+#         BUGS: ---
+#        NOTES: ---
+#       AUTHOR: Phil Simpson, pgsimpso@gmail.com
+#      VERSION: .01
+#      CREATED: 2011-11-03 22:05 UTC
+#     REVISION: 2011-11-04 23:21 UTC
+#== ======== ======== ======== ======== ======== ======== ======== ======== ==
 
-########
+#-----------------------------------------------------------------------------
 # Config options
-########
+#-----------------------------------------------------------------------------
 
 maxdepth=4
 
-########
+#-----------------------------------------------------------------------------
 # Main program
-########
+#-----------------------------------------------------------------------------
 
 if [ -z "$*" ]
 then
@@ -24,32 +34,25 @@ then
     echo "$0 DIRECTORY..."
 fi
 
-########
-# backup_dir_list is the space seperated list of backup directories to scan
-# which is passed in from the command line.
-########
-backup_dir_list=$*
+backupdirlist=$*  # List of backup directories to scan.
 
-########
+#-----------------------------------------------------------------------------
 # Gather the list of rdiff-backup data directories.
-########
-for backup_dir in $backup_dir_list
+#-----------------------------------------------------------------------------
+for backupdir in $backupdirlist
 do
-    for new_rdiffdata_dir in `find $backup_dir -maxdepth $maxdepth -type d -name rdiff-backup-data`
+    for datadir in `find $backupdir -maxdepth $maxdepth -type d -name rdiff-backup-data`
     do
-        rdiffdata_dir_list="$rdiffdata_dir_list $new_rdiffdata_dir \n"
+        dirlist="$dirlist $datadir \n"
     done
 done
 
-########
-# Sort and remove duplicates.
-########
-rdiffdata_dir_list=`echo -e $rdiffdata_dir_list | sort | uniq`
+dirlist=`echo -e $dirlist | sort | uniq`  # Sort and remove duplicates.
 
-########
+#-----------------------------------------------------------------------------
 # List each directory with its current mirror.
-########
-for dir in $rdiffdata_dir_list
+#-----------------------------------------------------------------------------
+for dir in $dirlist
 do
     dir=`dirname $dir`
     echo -n "$dir - "
